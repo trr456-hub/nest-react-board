@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 interface Board {
     id: number;
@@ -14,6 +14,13 @@ export default function Home() {
     const navigate = useNavigate();
     const goToWrite = () => {
         navigate('/write');
+    };
+    const goToDetail = (item: Board) => {
+        navigate(`${item.id}`, {
+            state: {
+                item: item,
+            },
+        });
     };
     useEffect(() => {
         const getData = async () => {
@@ -31,8 +38,7 @@ export default function Home() {
                 {boardData.map((item) => (
                     <div key={item.id}>
                         <span>{item.id}</span>
-                        <span>{item.title}</span>
-                        <span>{item.content}</span>
+                        <span onClick={() => goToDetail(item)}>{item.title}</span>
                         <span>{item.createdAt.toString()}</span>
                     </div>
                 ))}
